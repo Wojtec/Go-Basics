@@ -1,8 +1,42 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+//interface
+type animal interface {
+	eat()
+	showAge()
+}
+type dog struct {
+	name string
+	age  int
+}
+
+func (d dog) showAge() {
+	fmt.Println("The dog", d.name, "have", d.age, "years.")
+}
+func (d dog) eat() {
+	fmt.Println("dog eat", d.name)
+}
+func test(a animal) {
+	fmt.Println(a)
+}
 
 func main() {
+
+	//interface and polymorphism
+	fmt.Println("Interface:")
+	d1 := dog{"Felix", 34}
+	d2 := dog{"Dolly", 12}
+	d1.showAge()
+	d1.eat()
+	d2.eat()
+	test(d1)
+	test(d2)
+
+	fmt.Println("Variables:")
 
 	// variables go
 	var t = 1
@@ -23,10 +57,10 @@ func main() {
 
 	i, j := 20, 400
 
-	p := &i                    // point to i
-	fmt.Println("our p :", *p) // read i through the pointer
+	p := &i
+	fmt.Println("our p :", *p)
 	*p = 40
-	fmt.Println("now i is equal 40: ", i) // new value
+	fmt.Println("now i is equal 40: ", i)
 
 	p = &j
 	*p = *p / 2
@@ -82,8 +116,10 @@ func main() {
 	model.year = 2000
 	model.speed = 140
 	fmt.Println("Type struct:", model)
+
 }
 
+//function
 func add(i int, j int) int {
 
 	//condition if
