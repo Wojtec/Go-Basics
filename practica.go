@@ -1,17 +1,40 @@
 package main
 
 import (
+	"encoding/xml"
 	"log"
 	"net/http"
 )
 
+//type struct
+
+type Profile struct {
+	Name    string
+	Hobbies []string
+}
+
 func main() {
-	http.HandleFunc("/", mainHandler)
+	http.HandleFunc("/", htmlHandler)
+	http.HandleFunc("/xml", xmlHandler)
 	log.Fatal(http.ListenAndServe(":3000", nil))
 
 }
 
-func mainHandler(w http.ResponseWriter, r *http.Request) {
+func xmlHandler(w http.ResponseWriter, r *http.Request) {
+
+	profile := Profile{"Wojtek", []string{"Travels", "Programming"}}
+
+	x, err := xml.MarshalIndent(profile, "", " ")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-type", "text/xml; charset=utf8")
+	w.WriteHeader(http.StatusOK)
+	w.Write(x)
+}
+
+func htmlHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf8")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`<html>
