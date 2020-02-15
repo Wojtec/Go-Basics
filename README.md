@@ -9,6 +9,14 @@ Go Basic project for School Assembler
 # Built With
   Go-Language
    
+# Deliverables
+   - practica.go
+   - theoryPart.go
+   - scooby.jpg
+   - template.html
+   - README file.
+   - Documentation PDF format
+   - Presentation of the pill in PDF format
 
 # Authors
 Wojtek Poniński
