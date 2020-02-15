@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"encoding/xml"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
@@ -51,7 +52,8 @@ func plainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func jsonHandler(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-type", "application/json; charset=utf8")
+	w.WriteHeader(http.StatusOK)
 	profile := Profile{"Wojtek", []string{"Travels", "Programming"}}
 
 	js, err := json.MarshalIndent(profile, "", " ")
@@ -59,8 +61,7 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-type", "application/json; charset=utf8")
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(js)
 }
 func xmlHandler(w http.ResponseWriter, r *http.Request) {
@@ -80,17 +81,6 @@ func xmlHandler(w http.ResponseWriter, r *http.Request) {
 func htmlHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf8")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`<html>
-		<head><title>Simple server</title></head>
-		<body>
-		<h1>Hello </h1>
-		<p>Write endpoint for each action what you wanna see :</p>
-		<p> JSON write endpoint /json</p>
-		<p> XML write endpoint /xml</p>
-		<p> Plain text write endpoint /plain </p>
-		<p> Image write endpoint /image</p>
-		<body>
-		</html>
-		`))
-
+	t, e := template.ParseFiles("template.html")
+	t.Execute(w, e)
 }
